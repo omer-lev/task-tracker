@@ -10,8 +10,12 @@ const Landing = () => {
         <Logo className='text-2xl' />
 
         <div className='space-x-3'>
-          <Button size='lg' className='bg-primary-foreground text-primary hover:bg-primary hover:text-white'>Login</Button>
-          <Button size='lg' variant='outline' className='bg-muted border hover:bg-primary hover:text-white'>Signup</Button>
+          <Button size='lg' className='bg-primary-foreground text-primary hover:bg-primary hover:text-white'>
+            <Link href='/sign-in'>Login</Link>
+          </Button>
+          <Button size='lg' variant='outline' className='bg-muted border hover:bg-primary hover:text-white'>
+            <Link href='/sign-up'>Signup</Link>
+          </Button>
         </div>
       </nav>
 
@@ -36,7 +40,6 @@ const Landing = () => {
           className=' rounded-lg shadow-2xl mx-auto'
         />
       </section>
-
     </main>
   )
 }
