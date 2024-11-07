@@ -20,7 +20,7 @@ model User {
   name        String?
   photoUrl    String?
   createdAt   DateTime  @default(now())
-  lastUpdated DateTime? @updatedAt @db.Timestamp()
+  lastUpdated DateTime? @updatedAt
   projects    Project[]
 }
 
