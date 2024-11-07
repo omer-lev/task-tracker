@@ -10,7 +10,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Tasker.",
+  title: "Tasker",
   description: "Manage your projects and tasks effortlessly.",
 };
 

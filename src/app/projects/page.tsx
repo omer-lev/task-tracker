@@ -1,10 +1,45 @@
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search } from 'lucide-react';
 import React from 'react'
+import NewProject from './_components/new-project';
 
 type Props = {}
 
 const ProjectsPage = (props: Props) => {
   return (
-    <div>ProjectsPage</div>
+    <div className='flex h-full'>
+      <section className='grow space-y-10 px-14'>
+        <div className='flex justify-between py-6'>
+          <div className='flex items-center gap-3'>
+            <Search className='text-muted-foreground cursor-pointer' size={22} />
+            <input type="text" placeholder='Search a project...' className='bg-transparent border-b-2 font-light focus:outline-none' />
+          </div>
+
+          <NewProject />
+        </div>
+
+        <div className='grow pl-10 flex justify-between'>
+          <h2 className='text-2xl font-semibold'>My Projects</h2>
+          <div className='flex items-center'>
+            <span className='min-w-fit text-sm text-muted-foreground'>Sort by</span>
+            <Select defaultValue='az' >
+              <SelectTrigger className='border-none shadow-none font-medium focus:ring-0'>
+                <SelectValue className='' />
+              </SelectTrigger>
+              <SelectContent className='bg-transparent shadow-none border-none'>
+                <SelectItem value='az' className='hover:bg-black'>Order A-Z</SelectItem>
+                <SelectItem value='newest' className='hover:bg-black'>Newest</SelectItem>
+                <SelectItem value='oldest' className='hover:bg-black'>Oldest</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </section>
+
+      <div className='h-full w-[300px] bg-white'>
+        <h2 className='text-xl font-semibold text-center'>Projects Completed</h2>
+      </div>
+    </div>
   )
 }
 

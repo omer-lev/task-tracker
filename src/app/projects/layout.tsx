@@ -1,12 +1,14 @@
 import React from 'react'
-
-type Props = {}
+import Sidebar from './_components/sidebar';
 
 const ProjectsLayout = ({ children }: { children: React.ReactNode }) => {
+  // prefetch query here
   return (
-    <div>
+    <main className='h-full w-[calc(100%-100px)] fixed left-[100px]'>
+      <Sidebar />
+
       {children}
-    </div>
+    </main>
   )
 }
 

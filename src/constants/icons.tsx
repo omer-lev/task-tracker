@@ -35,9 +35,14 @@ import {
   Globe,
   Palette,
   Pencil,
+  Home,
+  Weight,
+  Dumbbell,
 } from "lucide-react";
 
-export const icons: Record<string, React.ReactNode> = {
+export const icons: Record<string, React.JSX.Element | React.ReactNode> = {
+  home: <Home />,
+  dumbbell: <Dumbbell />,
   activity: <Activity />,
   bird: <Bird />,
   graduationCap: <GraduationCap />,
