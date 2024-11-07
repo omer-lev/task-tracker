@@ -27,7 +27,7 @@ const Landing = () => {
             your priorities, and tracking progress with ease. Stay organized and <br />
             boost your productivity effortlessly!
           </p>
-          <Button size='lg' className='text-white w-fit mx-auto hover:border border-primary hover:text-primary'>
+          <Button asChild size='lg' className='text-white w-fit mx-auto hover:border border-primary hover:text-primary'>
             <Link href='/projects'>Let's Get Started!</Link>
           </Button>
         </div>
