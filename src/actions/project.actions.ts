@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from "@/lib/db";
-import { authenticateUser } from "./auth.actions";
+import { authenticateUser, isProjectOwner } from "./auth.actions";
 
 // create a new project and save it to the database
 export const createProject = async (projectData: {
@@ -70,6 +70,39 @@ export const getProjects = async () => {
     if (projects) return {
       status: 200,
       data: projects,
+    }
+
+    return { 
+      status: 400,
+      message: 'Oops! Something went wrong. Please try again',
+    };
+  } catch (error) {
+    console.error(error);
+
+    return { 
+      status: 400,
+      message: 'Oops! Something went wrong. Please try again', 
+    };
+  }
+}
+
+export const deleteProject = async (projectId: string) => {
+  const { status, message } = await isProjectOwner(projectId);
+
+  if (status !== 200) {    
+    return { status, message };
+  }
+
+  try {
+    const project = await prisma.project.delete({
+      where: {
+        id: projectId,
+      },
+    });
+
+    if (project) return {
+      status: 200,
+      message: 'Project deleted successfully',
     }
 
     return { 

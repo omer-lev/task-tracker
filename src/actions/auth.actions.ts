@@ -31,3 +31,39 @@ export const authenticateUser = async () => {
     data: user,
   };
 }
+
+export const isProjectOwner = async (projectId: string) => {
+  const { data: user } = await authenticateUser();
+
+  if (!user) {
+    return {
+      status: 401,
+      message: 'Unauthorized',
+    };
+  }
+
+  const project = await prisma.project.findUnique({
+    where: {
+      id: projectId,
+    }
+  });
+
+  if (!project) {
+    return {
+      status: 404,
+      message: 'Project not found',
+    };
+  }
+
+  if (project.ownerId !== user.id) {
+    return {
+      status: 403,
+      message: 'Forbidden',
+    };
+  }
+
+  return {
+    status: 200,
+    data: project,
+  };
+}

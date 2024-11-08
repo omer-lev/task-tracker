@@ -50,8 +50,8 @@ const ProjectsPage = async (props: Props) => {
         <Projects />
       </section>
 
-      <div className='h-full w-[300px] bg-white'>
-        <h2 className='text-xl font-semibold text-center'>Projects Completed</h2>
+      <div className='h-full w-[300px] bg-white flex flex-col items-center pt-14'>
+        <h2 className='text-xl font-semibold text-center mb-10'>Projects Completed</h2>
 
         <AnimatedCircularProgressBar
           min={0}
