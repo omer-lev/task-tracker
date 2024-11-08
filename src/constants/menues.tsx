@@ -11,9 +11,9 @@ export const navLinks = [
     href: '/tasks',
     icon: <StretchHorizontal />
   },
-  {
-    label: 'Logout',
-    href: '/logout',
-    icon: <LogOut />
-  }
+  // {
+  //   label: 'Logout',
+  //   href: '/logout',
+  //   icon: <LogOut />
+  // }
 ]

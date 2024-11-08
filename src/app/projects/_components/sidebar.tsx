@@ -3,7 +3,8 @@
 import Logo from "@/components/global/logo";
 import { navLinks } from "@/constants/menues";
 import { cn } from "@/lib/utils";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -41,6 +42,9 @@ const Sidebar = ({ className }: Props) => {
                 {link.icon}
               </Link>
             ))}
+            <SignOutButton>
+              <LogOut className="cursor-pointer" />
+            </SignOutButton>
           </div>
           <div className={`h-[30px] ${open && 'self-end mr-3'}`}>
             <UserButton />
@@ -57,6 +61,9 @@ const Sidebar = ({ className }: Props) => {
                 {link.label}
               </Link>
             ))}
+            <SignOutButton>
+              Logout
+            </SignOutButton>
           </div>
 
           <span className="truncate h-[30px] text-start">{user?.fullName}</span>
