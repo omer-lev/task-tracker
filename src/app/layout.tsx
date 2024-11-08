@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { Poppins } from 'next/font/google';
 import { ClerkProvider } from "@clerk/nextjs";
+import { ReactQueryProvider } from "@/react-query/provider";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -25,7 +26,7 @@ export default function RootLayout({
         <body
           className={`${poppins.className} antialiased bg-muted`}
         >
-          {children}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
         </body>
       </html>
     </ClerkProvider>

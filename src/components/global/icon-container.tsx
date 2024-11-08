@@ -7,7 +7,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const IconContainer = ({ icon, className, ...props }: Props) => {
   return (
-    <div className={cn("w-8 h-8 bg-primary-foreground flex justify-center items-center text-primary rounded-md", className)} {...props}>
+    <div className={cn("w-8 h-8 bg-primary-foreground flex justify-center items-center text-primary rounded-md aspect-square", className)} {...props}>
       {icon}
     </div>
   )

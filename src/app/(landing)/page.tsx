@@ -1,5 +1,7 @@
 import Logo from '@/components/global/logo';
 import { Button } from '@/components/ui/button';
+import { SignedIn, SignedOut, SignOutButton, useClerk } from '@clerk/nextjs';
+import { LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,12 +12,22 @@ const Landing = () => {
         <Logo className='text-2xl' />
 
         <div className='space-x-3'>
-          <Button size='lg' className='bg-primary-foreground text-primary hover:bg-primary hover:text-white'>
-            <Link href='/sign-in'>Login</Link>
-          </Button>
-          <Button size='lg' variant='outline' className='bg-muted border hover:bg-primary hover:text-white'>
-            <Link href='/sign-up'>Signup</Link>
-          </Button>
+          <SignedOut>
+            <Button size='lg' className='bg-primary-foreground text-primary hover:bg-primary hover:text-white'>
+              <Link href='/sign-in'>Login</Link>
+            </Button>
+            <Button size='lg' variant='outline' className='bg-muted border hover:bg-primary hover:text-white'>
+              <Link href='/sign-up'>Signup</Link>
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <SignOutButton>
+              <Button variant='outline' className='bg-muted border-2'>
+                <LogOut />
+                Sign Out
+              </Button>
+            </SignOutButton>
+          </SignedIn>
         </div>
       </nav>
 

@@ -2,10 +2,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Search } from 'lucide-react';
 import React from 'react'
 import NewProject from './_components/new-project';
+import AnimatedCircularProgressBar from '@/components/ui/animated-circular-progress-bar';
+import Projects from './_components/projects';
+import { QueryClient } from '@tanstack/react-query';
+import { getProjects } from '@/actions/project.actions';
 
 type Props = {}
 
-const ProjectsPage = (props: Props) => {
+const ProjectsPage = async (props: Props) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['projects'],
+    queryFn: getProjects,
+  });
+
   return (
     <div className='flex h-full'>
       <section className='grow space-y-10 px-14'>
@@ -26,7 +37,7 @@ const ProjectsPage = (props: Props) => {
               <SelectTrigger className='border-none shadow-none font-medium focus:ring-0'>
                 <SelectValue className='' />
               </SelectTrigger>
-              <SelectContent className='bg-transparent shadow-none border-none'>
+              <SelectContent className='bg-muted shadow-none border-none'>
                 <SelectItem value='az' className='hover:bg-black'>Order A-Z</SelectItem>
                 <SelectItem value='newest' className='hover:bg-black'>Newest</SelectItem>
                 <SelectItem value='oldest' className='hover:bg-black'>Oldest</SelectItem>
@@ -34,10 +45,21 @@ const ProjectsPage = (props: Props) => {
             </Select>
           </div>
         </div>
+
+        {/* display data from query */}
+        <Projects />
       </section>
 
       <div className='h-full w-[300px] bg-white'>
         <h2 className='text-xl font-semibold text-center'>Projects Completed</h2>
+
+        <AnimatedCircularProgressBar
+          min={0}
+          max={100}
+          gaugePrimaryColor='#27C0B1'
+          gaugeSecondaryColor='#e6f7f6'
+          value={0}
+        />
       </div>
     </div>
   )

@@ -6,7 +6,7 @@ import { icons } from '@/constants/icons';
 import React, { useState } from 'react'
 
 
-const IconPicker = () => {
+const IconPicker = ({ onChange }: { onChange?: (selectedIcon: string) => void}) => {
   const [selectedIcon, setSelectedIcon] = useState<string>('home');
 
   return (
@@ -27,7 +27,10 @@ const IconPicker = () => {
                 <IconContainer
                   icon={icon}
                   className={`w-10 h-10 cursor-pointer hover:opacity-85 ${label === selectedIcon && 'bg-primary text-white'}`}
-                  onClick={() => setSelectedIcon(label)}
+                  onClick={() => {
+                    setSelectedIcon(label)
+                    onChange && onChange(label)
+                  }}
                 />
               </DrawerClose>
             ))}
