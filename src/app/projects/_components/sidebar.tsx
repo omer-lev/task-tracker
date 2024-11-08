@@ -35,7 +35,7 @@ const Sidebar = ({ className }: Props) => {
         {/* static icons nav section */}
         <div className="w-[100px] flex flex-col items-center justify-between">
           <span />
-          <div className="flex flex-col h-[200px] justify-between">
+          <div className="flex flex-col h-[200px] justify-around">
             {navLinks.map((link, i) => (
               <Link key={i} href={link.href} className="hover:text-neutral-700">
                 {link.icon}
@@ -51,7 +51,7 @@ const Sidebar = ({ className }: Props) => {
         <div className={`flex flex-col justify-between transition-all overflow-hidden opacity-0 ${open ? 'w-[150px] opacity-100' : 'w-0'}`}>
           <span />
 
-          <div className="flex flex-col items-start h-[200px] justify-between">
+          <div className="flex flex-col items-start h-[200px] justify-around">
             {navLinks.map((link, i) => (
               <Link key={i} href={link.href} className="hover:text-neutral-700">
                 {link.label}

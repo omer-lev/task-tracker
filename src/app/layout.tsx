@@ -4,6 +4,7 @@ import "./globals.css";
 import { Poppins } from 'next/font/google';
 import { ClerkProvider } from "@clerk/nextjs";
 import { ReactQueryProvider } from "@/react-query/provider";
+import { Toaster } from 'sonner';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -27,6 +28,8 @@ export default function RootLayout({
           className={`${poppins.className} antialiased bg-muted`}
         >
           <ReactQueryProvider>{children}</ReactQueryProvider>
+
+          <Toaster richColors />
         </body>
       </html>
     </ClerkProvider>

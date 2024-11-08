@@ -60,6 +60,7 @@ export const getProjects = async () => {
         ownerId: user.id,
       },
       select: {
+        id: true,
         title: true,
         icon: true,
         tasks: true,

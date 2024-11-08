@@ -11,6 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import IconPicker from './icon-picker';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createProject } from '@/actions/project.actions';
+import { toast } from 'sonner';
 
 
 type FormFields = {
@@ -46,6 +47,8 @@ const NewProject = () => {
       mutate(data);
 
       setIsOpen(false);
+
+      toast.success('Project created successfully');
     } catch (error) {
       setError('root', { message: 'Oops! Something went wrong. Please try again' });
     }

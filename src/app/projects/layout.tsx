@@ -12,4 +12,4 @@ const ProjectsLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default ProjectsLayout
+export default ProjectsLayout;

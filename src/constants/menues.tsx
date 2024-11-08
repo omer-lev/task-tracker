@@ -8,7 +8,7 @@ export const navLinks = [
   },
   {
     label: 'Tasks',
-    href: '/projects/tasks',
+    href: '/tasks',
     icon: <StretchHorizontal />
   },
   {

@@ -71,6 +71,7 @@ body {
 @layer base {
   * {
     @apply border-border;
+    scrollbar-color: gray transparent;
   }
 
   body {

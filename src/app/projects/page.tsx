@@ -19,7 +19,7 @@ const ProjectsPage = async (props: Props) => {
 
   return (
     <div className='flex h-full'>
-      <section className='grow space-y-10 px-14'>
+      <section className='grow space-y-10 px-14 flex flex-col'>
         <div className='flex justify-between py-6'>
           <div className='flex items-center gap-3'>
             <Search className='text-muted-foreground cursor-pointer' size={22} />
@@ -29,7 +29,7 @@ const ProjectsPage = async (props: Props) => {
           <NewProject />
         </div>
 
-        <div className='grow pl-10 flex justify-between'>
+        <div className='grow pl-10 flex justify-between max-h-fit'>
           <h2 className='text-2xl font-semibold'>My Projects</h2>
           <div className='flex items-center'>
             <span className='min-w-fit text-sm text-muted-foreground'>Sort by</span>

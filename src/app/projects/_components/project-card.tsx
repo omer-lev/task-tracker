@@ -4,17 +4,24 @@ import { Progress } from '@/components/ui/progress';
 import { icons } from '@/constants/icons';
 import { Task } from '@prisma/client';
 import { EllipsisVertical } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 type Props = {
+  id: string;
   title: string;
   icon: string;
   tasks?: Task[];
 }
 
-const ProjectCard = ({ title, icon, tasks }: Props) => {
+const ProjectCard = ({ id, title, icon, tasks }: Props) => {
+  const router = useRouter();
+  
   return (
-    <Card className='w-[350px] h-[300px] overflow-hidden cursor-pointer hover:opacity-80 flex flex-col'>
+    <Card 
+      className='w-[350px] h-[300px] overflow-hidden cursor-pointer hover:opacity-80 flex flex-col'
+      onClick={() => router.push(`/projects/${id}`)}
+    >
       <CardHeader className='flex flex-row justify-between'>
         <CardTitle className='flex items-center gap-3 w-full'>
           <IconContainer icon={icons[icon]} className='bg-primary text-white' />
