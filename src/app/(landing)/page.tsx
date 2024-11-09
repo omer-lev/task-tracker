@@ -1,11 +1,19 @@
+'use server';
+
 import Logo from '@/components/global/logo';
 import { Button } from '@/components/ui/button';
-import { SignedIn, SignedOut, SignOutButton, useClerk } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-const Landing = () => {
+const Landing = async () => {
+  const { userId } = await auth();
+
+  if (userId) return redirect('/projects');
+
   return (
     <main className='h-full landing-background-gradient px-8 flex flex-col justify-between'>
       <nav className='h-[10%] flex justify-between items-center'>
@@ -13,14 +21,14 @@ const Landing = () => {
 
         <div className='space-x-3'>
           <SignedOut>
-            <Button size='lg' className='bg-primary-foreground text-primary hover:bg-primary hover:text-white'>
+            <Button size='lg' className='bg-primary-foreground text-primary hover:bg-primary hover:text-white' asChild>
               <Link href='/sign-in'>Login</Link>
             </Button>
-            <Button size='lg' variant='outline' className='bg-muted border hover:bg-primary hover:text-white'>
+            <Button size='lg' variant='outline' className='bg-muted border hover:bg-primary hover:text-white' asChild>
               <Link href='/sign-up'>Signup</Link>
             </Button>
           </SignedOut>
-          <SignedIn>
+          <SignedIn>            
             <SignOutButton>
               <Button variant='outline' className='bg-muted border-2'>
                 <LogOut />

@@ -118,3 +118,45 @@ export const deleteProject = async (projectId: string) => {
     };
   }
 }
+
+export const updateProject = async (projectData: {
+  projectId: string;
+  title: string;
+  icon: string;
+}) => {
+  const { status, message } = await isProjectOwner(projectData.projectId);
+
+  if (status !== 200) {    
+    return { status, message };
+  }
+
+
+  try {
+    const project = await prisma.project.update({
+      where: {
+        id: projectData.projectId,
+      },
+      data: {
+        title: projectData.title,
+        icon: projectData.icon,        
+      }
+    });
+
+    if (project) return {
+      status: 200,
+      message: 'Project updated successfully',
+    }
+
+    return { 
+      status: 400,
+      message: 'Oops! Something went wrong. Please try again',
+    };
+  } catch (error) {
+    console.error(error);
+
+    return { 
+      status: 400,
+      message: 'Oops! Something went wrong. Please try again', 
+    };
+  }
+}

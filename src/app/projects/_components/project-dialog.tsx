@@ -9,9 +9,7 @@ import { Plus, StretchHorizontal } from 'lucide-react';
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import IconPicker from './icon-picker';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createProject } from '@/actions/project.actions';
-import { toast } from 'sonner';
+import { useProjects } from '@/hooks/projects';
 
 
 type FormFields = {
@@ -19,17 +17,19 @@ type FormFields = {
   icon: string;
 }
 
-const NewProject = () => {
-  const [isOpen, setIsOpen] = useState(false);
+type Props = {
+  isEdit?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  projectData?: {
+    title: string;
+    icon: string;
+    id: string;
+  };
+}
 
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationFn: createProject,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    }
-  });
+const ProjectDialog = ({ isEdit=false, projectData, onOpenChange }: Props) => {
+  const [isOpen, setIsOpen] = useState(isEdit);
+  const { createMutation, updateMutation } = useProjects(projectData?.id);
 
   const {
     register,
@@ -39,29 +39,33 @@ const NewProject = () => {
     reset,
     setValue,
   } = useForm<FormFields>({
-    defaultValues: { icon: 'home' }
+    defaultValues: isEdit ? projectData : { title: '', icon: 'home' }
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
-      mutate(data);
+      if (isEdit && projectData) {
+        updateMutation({ ...data, projectId: projectData?.id });
+      } else {
+        createMutation(data);
+      }
 
+      onOpenChange?.(false);
       setIsOpen(false);
-
-      toast.success('Project created successfully');
     } catch (error) {
       setError('root', { message: 'Oops! Something went wrong. Please try again' });
     }
   }
 
   const onDialogOpenChange = (open: boolean) => {
+    onOpenChange?.(open);
     setIsOpen(open);
     reset();
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onDialogOpenChange}>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className={`${isEdit && 'hidden'}`}>
         <Button>
           <Plus />
           New Project
@@ -69,10 +73,10 @@ const NewProject = () => {
       </DialogTrigger>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle className='flex items-baseline gap-2'>
-              <IconContainer icon={<StretchHorizontal size={22} />} />
-              Add New Project
+          <DialogHeader className='space-y-3'>
+            <DialogTitle className='flex items-center gap-3'>
+              <IconContainer icon={<StretchHorizontal />} />
+              {isEdit ? 'Edit Project' : 'Add New Project'}
             </DialogTitle>
             <DialogDescription>
               Enter your project details here. Click 'Add Project' when you're done.
@@ -90,7 +94,10 @@ const NewProject = () => {
             </div>
             <div className='w-fit leading-8'>
               <Label className='text-muted-foreground'>Icon</Label>
-              <IconPicker onChange={(icon) => setValue('icon', icon)} />
+              <IconPicker 
+                defaultIcon={projectData?.icon}
+                onChange={(icon) => setValue('icon', icon)} 
+              />
             </div>
           </div>
           {errors.title && <span className='text-red-500 text-sm'>{errors.title.message}</span>}
@@ -99,7 +106,9 @@ const NewProject = () => {
             <DialogClose asChild>
               <Button variant='outline' type="button">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Add Project</Button>
+            <Button type="submit">
+              {isEdit ? 'Save' : 'Add Project'}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -107,4 +116,4 @@ const NewProject = () => {
   )
 }
 
-export default NewProject;
+export default ProjectDialog;

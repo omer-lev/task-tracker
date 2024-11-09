@@ -5,9 +5,13 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, Dr
 import { icons } from '@/constants/icons';
 import React, { useState } from 'react'
 
+type Props = {
+  onChange?: (selectedIcon: string) => void;
+  defaultIcon?: string;
+}
 
-const IconPicker = ({ onChange }: { onChange?: (selectedIcon: string) => void}) => {
-  const [selectedIcon, setSelectedIcon] = useState<string>('home');
+const IconPicker = ({ onChange, defaultIcon }: Props) => {
+  const [selectedIcon, setSelectedIcon] = useState<string>(defaultIcon || 'home');
 
   return (
     <Drawer>

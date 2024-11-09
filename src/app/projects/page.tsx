@@ -1,7 +1,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search } from 'lucide-react';
 import React from 'react'
-import NewProject from './_components/new-project';
+import ProjectDialog from './_components/project-dialog';
 import AnimatedCircularProgressBar from '@/components/ui/animated-circular-progress-bar';
 import Projects from './_components/projects';
 import { QueryClient } from '@tanstack/react-query';
@@ -26,7 +26,7 @@ const ProjectsPage = async (props: Props) => {
             <input type="text" placeholder='Search a project...' className='bg-transparent border-b-2 font-light focus:outline-none' />
           </div>
 
-          <NewProject />
+          <ProjectDialog />
         </div>
 
         <div className='grow pl-10 flex justify-between max-h-fit'>

@@ -43,7 +43,7 @@ const Sidebar = ({ className }: Props) => {
               </Link>
             ))}
             <SignOutButton>
-              <LogOut className="cursor-pointer" />
+              <LogOut className="cursor-pointer hover:text-neutral-700" />
             </SignOutButton>
           </div>
           <div className={`h-[30px] ${open && 'self-end mr-3'}`}>
@@ -62,7 +62,7 @@ const Sidebar = ({ className }: Props) => {
               </Link>
             ))}
             <SignOutButton>
-              Logout
+              <span className="hover:text-neutral-700 cursor-pointer">Logout</span>
             </SignOutButton>
           </div>
 

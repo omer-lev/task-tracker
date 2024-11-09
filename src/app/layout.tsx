@@ -4,6 +4,7 @@ import "./globals.css";
 import { Poppins } from 'next/font/google';
 import { ClerkProvider } from "@clerk/nextjs";
 import { ReactQueryProvider } from "@/react-query/provider";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'sonner';
 
 const poppins = Poppins({
@@ -22,12 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl='/'>
       <html lang="en">
         <body
           className={`${poppins.className} antialiased bg-muted`}
         >
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <ReactQueryProvider>
+            {children}
+            <ReactQueryDevtools initialIsOpen={false} />
+          </ReactQueryProvider>
 
           <Toaster richColors />
         </body>
