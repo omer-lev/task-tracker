@@ -1,3 +1,4 @@
+import { getProjects } from "@/actions/project.actions";
 import { LayoutDashboard, LogOut, StretchHorizontal } from "lucide-react";
 
 export const navLinks = [
@@ -6,11 +7,11 @@ export const navLinks = [
     href: '/projects',
     icon: <LayoutDashboard />
   },
-  {
-    label: 'Tasks',
-    href: '/tasks',
-    icon: <StretchHorizontal />
-  },
+  // {
+  //   label: 'Tasks',
+  //   href: '/tasks',
+  //   icon: <StretchHorizontal />
+  // },
   // {
   //   label: 'Logout',
   //   href: '/logout',

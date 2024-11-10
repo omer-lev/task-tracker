@@ -88,7 +88,7 @@ const ProjectDialog = ({ isEdit=false, projectData, onOpenChange }: Props) => {
               <Label className='text-muted-foreground'>Project Title</Label>
               <Input
                 type='text'
-                placeholder='Enter Project Title...'
+                placeholder='Enter project title...'
                 {...register('title', { required: 'project title is required.' })}
               />
             </div>

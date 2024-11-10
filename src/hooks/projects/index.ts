@@ -1,4 +1,5 @@
 import { createProject, deleteProject, updateProject } from "@/actions/project.actions";
+import { createTask, deleteTask, updateTask } from "@/actions/task.actions";
 import { useMutation, useMutationState, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -51,4 +52,46 @@ export const useOptimistic = (mutationKey: any[]) => {
   });  
 
   return { variables };
+}
+
+export const useTasks = (data: any) => {
+  const queryClient = useQueryClient();
+
+  // CREATE
+  const { mutate: createMutation } = useMutation({
+    mutationFn: createTask,
+    mutationKey: ['create-task', data],
+    onError: (error) => {
+      toast.error('Oops! Something went wrong. Please try again');
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      toast.success(`Task created successfully`);
+    }
+  });
+
+  // UPDATE
+  const { mutate: updateMutation } = useMutation({
+    mutationFn: updateTask,
+    mutationKey: ['update-task', data],
+    onError: (error) => {
+      toast.error('Oops! Something went wrong. Please try again');
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      toast.success(`Task updated successfully`);
+    }
+  });
+
+  // // DELETE
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: deleteTask,
+    mutationKey: ['delete-task', data],
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      toast.success('Task deleted successfully');
+    }
+  });
+
+  return { createMutation, updateMutation };
 }

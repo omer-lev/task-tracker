@@ -1,10 +1,12 @@
 'use client';
 
+import { getProjects } from "@/actions/project.actions";
 import Logo from "@/components/global/logo";
 import { navLinks } from "@/constants/menues";
 import { cn } from "@/lib/utils";
 import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
-import { LogOut } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { LogOut, StretchHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -24,6 +26,8 @@ const Sidebar = ({ className }: Props) => {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
 
+  const { data: projects } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
+
   return (
     <nav
       className={cn('bg-white h-full w-[100px] fixed left-0 z-50 transition-all flex flex-col text-center py-5', className, open && 'w-[250px]')}
@@ -42,6 +46,9 @@ const Sidebar = ({ className }: Props) => {
                 {link.icon}
               </Link>
             ))}
+            <Link href={projects?.data ? `/projects/${projects.data[0].id}` : '/tasks'} className="hover:text-neutral-700">
+              <StretchHorizontal />
+            </Link>
             <SignOutButton>
               <LogOut className="cursor-pointer hover:text-neutral-700" />
             </SignOutButton>
@@ -61,6 +68,9 @@ const Sidebar = ({ className }: Props) => {
                 {link.label}
               </Link>
             ))}
+            <Link href={projects?.data ? `/projects/${projects.data[0].id}` : '/tasks'} className="hover:text-neutral-700">
+              <span className="hover:text-neutral-700 cursor-pointer">Tasks</span>
+            </Link>
             <SignOutButton>
               <span className="hover:text-neutral-700 cursor-pointer">Logout</span>
             </SignOutButton>
