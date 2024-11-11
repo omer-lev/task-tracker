@@ -46,7 +46,7 @@ const Sidebar = ({ className }: Props) => {
                 {link.icon}
               </Link>
             ))}
-            <Link href={projects?.data ? `/projects/${projects.data[0].id}` : '/tasks'} className="hover:text-neutral-700">
+            <Link href={projects?.data?.length ? `/projects/${projects.data[0].id}` : '/tasks'} className="hover:text-neutral-700">
               <StretchHorizontal />
             </Link>
             <SignOutButton>
@@ -68,7 +68,7 @@ const Sidebar = ({ className }: Props) => {
                 {link.label}
               </Link>
             ))}
-            <Link href={projects?.data ? `/projects/${projects.data[0].id}` : '/tasks'} className="hover:text-neutral-700">
+            <Link href={projects?.data?.length ? `/projects/${projects.data[0].id}` : '/tasks'} className="hover:text-neutral-700">
               <span className="hover:text-neutral-700 cursor-pointer">Tasks</span>
             </Link>
             <SignOutButton>

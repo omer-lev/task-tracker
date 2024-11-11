@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/db";
 import { authenticateUser, isProjectOwner } from "./auth.actions";
-import { Priority } from "@prisma/client";
+import { Priority, Task } from "@prisma/client";
 
 export const getAllTasks = async () => {
   const { data: auth } = await authenticateUser();
@@ -81,7 +81,7 @@ export const createTask = async (taskData: {
   projectId: string;
   priority: Priority;
 }) => {
-  const { data: user } = await isProjectOwner(taskData.projectId);
+  const { data: user } = await isProjectOwner(taskData.projectId);  
 
   if (!user) {
     return {
@@ -115,10 +115,12 @@ export const createTask = async (taskData: {
 }
 
 export const updateTask = async (taskData: {
-  title: string;
-  priority: Priority;
-  projectId: string;
   id: string;
+  title?: string;
+  description?: string;
+  projectId: string;
+  priority?: Priority;
+  completed?: boolean;
 }) => {
   const { data: user } = await isProjectOwner(taskData.projectId);
 
@@ -148,7 +150,8 @@ export const updateTask = async (taskData: {
 }
 
 export const deleteTask = async (taskData: {
-  taskId: string, projectId: string
+  id: string, 
+  projectId: string
 }) => {
   const { data: user } = await isProjectOwner(taskData.projectId);
 
@@ -161,7 +164,7 @@ export const deleteTask = async (taskData: {
 
   const task = await prisma.task.delete({
     where: {
-      id: taskData.taskId,
+      id: taskData.id,
     },
   });
 

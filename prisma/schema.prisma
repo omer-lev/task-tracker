@@ -38,7 +38,7 @@ model Project {
 model Task {
   id          String   @id @default(cuid())
   title       String
-  description String?
+  description String   @default("")
   priority    Priority
   completed   Boolean  @default(false)
   createdAt   DateTime @default(now())

@@ -1,18 +1,15 @@
 'use client';
 
 import { getProjects } from '@/actions/project.actions';
-import { useMutationState, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import ProjectCard from './project-card';
+import { useOptimistic } from '@/hooks/projects';
 
 
 const Projects = () => {
   const { data, isLoading } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
-
-  const mutation = useMutationState({
-    filters: { mutationKey: ['create-project'], status: 'pending' },
-    select: (mutation) => mutation.state.variables as any
-  });
+  const variables = useOptimistic(['create-project']);
 
   return (
     <div className='flex gap-5 flex-wrap grow overflow-y-auto pb-6'>
@@ -23,15 +20,17 @@ const Projects = () => {
           id={project.id}
           title={project.title}
           icon={project.icon}
+          tasks={project.tasks}
         />
       ))}
-      {mutation.map((variable, idx) => {
+      {variables.map((variable, idx) => {
         return (
           <ProjectCard
             key={idx}
             id={variable.id}
             title={variable.title}
             icon={variable.icon}
+            tasks={variable.tasks}
             className='opacity-50'
           />)
       })}

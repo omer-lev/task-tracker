@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useQuery } from '@tanstack/react-query';
 import { getProjects } from '@/actions/project.actions';
 import { useParams } from 'next/navigation';
-import { Priority } from '@prisma/client';
+import { Priority, Task } from '@prisma/client';
 import { Textarea } from '@/components/ui/textarea';
 
 
@@ -21,25 +21,22 @@ type FormFields = {
   title: string;
   description?: string;
   priority: Priority;
-}
+  projectId: string;
+};
 
 type Props = {
   isEdit?: boolean;
   onOpenChange?: (open: boolean) => void;
-  taskData?: {
-    title: string;
-    id: string;
-    projectId: string;
-  };
+  taskData?: Task;
 }
 
 const TaskDialog = ({ isEdit = false, taskData, onOpenChange }: Props) => {
-  const { projectId } = useParams();
-
+  const { projectId }: { projectId: string } = useParams();
   const [isOpen, setIsOpen] = useState(isEdit);
   const { createMutation, updateMutation } = useTasks(taskData?.id);
 
-  const { data } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
+
+  const { data: projects } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
 
   const {
     register,
@@ -50,16 +47,20 @@ const TaskDialog = ({ isEdit = false, taskData, onOpenChange }: Props) => {
     reset,
     setValue,
   } = useForm<FormFields>({
-    defaultValues: isEdit ? taskData : { priority: 'LOW' },
+    defaultValues: isEdit ? taskData : {
+      priority: 'LOW',
+      projectId,
+      description: '',
+    },
   });
   const descriptionField = watch('description');
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       if (isEdit && taskData) {
-        updateMutation({ ...data, ...taskData });
+        updateMutation({ ...data, id: taskData.id });
       } else {
-        createMutation({ ...data, projectId: projectId as string });
+        createMutation(data);
       }
 
       onOpenChange?.(false);
@@ -120,7 +121,7 @@ const TaskDialog = ({ isEdit = false, taskData, onOpenChange }: Props) => {
           <div className='flex gap-3'>
             <div className='w-full'>
               <Label className='text-muted-foreground'>Priority</Label>
-              <Select defaultValue='LOW' onValueChange={(val: Priority) => setValue('priority', val)}>
+              <Select defaultValue={taskData?.priority || 'LOW'} onValueChange={(val: Priority) => setValue('priority', val)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -142,12 +143,12 @@ const TaskDialog = ({ isEdit = false, taskData, onOpenChange }: Props) => {
             </div>
             <div className='w-full'>
               <Label className='text-muted-foreground'>Project</Label>
-              <Select defaultValue={projectId as string}>
+              <Select defaultValue={taskData?.projectId || projectId} onValueChange={(val) => setValue('projectId', val)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {data?.data?.map((project) => (
+                  {projects?.data?.map((project) => (
                     <SelectItem key={project.id} value={project.id}>
                       {project.title}
                     </SelectItem>

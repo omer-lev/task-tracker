@@ -9,7 +9,7 @@ export const useProjects = (data: any) => {
   // CREATE
   const { mutate: createMutation } = useMutation({
     mutationFn: createProject,
-    mutationKey: ['create-project', data],
+    mutationKey: ['create-project'],
     onError: (error) => {
       toast.error('Oops! Something went wrong. Please try again');
     },
@@ -45,22 +45,26 @@ export const useProjects = (data: any) => {
   return { createMutation, updateMutation, deleteMutation };
 }
 
-export const useOptimistic = (mutationKey: any[]) => {
+export const useOptimistic = <T>(mutationKey: any) => {
   const variables = useMutationState({
-    filters: { mutationKey, status: 'pending' },
-    select: (mutation) => mutation.state.variables as any,
-  });  
+    filters: {
+      mutationKey,
+      status: 'pending',
+    },
+    select: (mutation) => mutation.state.variables as T[] | any,
+  });
 
-  return { variables };
+  return variables;
 }
 
 export const useTasks = (data: any) => {
   const queryClient = useQueryClient();
 
   // CREATE
+  // write a mutation for creating a task and put it inside a function called createMutation
   const { mutate: createMutation } = useMutation({
     mutationFn: createTask,
-    mutationKey: ['create-task', data],
+    mutationKey: ['create-task'],
     onError: (error) => {
       toast.error('Oops! Something went wrong. Please try again');
     },
@@ -93,5 +97,5 @@ export const useTasks = (data: any) => {
     }
   });
 
-  return { createMutation, updateMutation };
+  return { createMutation, updateMutation, deleteMutation };
 }
