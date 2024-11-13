@@ -1,7 +1,7 @@
 'use client';
 
-import { getAllTasks } from '@/actions/task.actions'
-import { useQuery } from '@tanstack/react-query'
+import { getAllTasks, getTasksByProjectId } from '@/actions/task.actions'
+import { QueryCache, useQuery } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import TaskCard from './task-card';
@@ -16,9 +16,10 @@ const Tasks = () => {
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
   const [projectTasks, setProjectTasks] = useState<Task[]>([]);
 
+
   const { data: tasks, isLoading } = useQuery({
-    queryKey: ['tasks'],
-    queryFn: getAllTasks
+    queryKey: ['tasks', projectId],
+    queryFn: () => getTasksByProjectId(projectId),
   });
 
   const variables = useOptimistic(['create-task']);
@@ -28,12 +29,12 @@ const Tasks = () => {
     setProjectTasks(projectTasks);
 
     if (completed) {
-      const filtered = projectTasks.filter(t => t.projectId === projectId && t.completed);
+      const filtered = projectTasks.filter(t => t.completed);
       setFilteredTasks(filtered);
 
       return filtered;
     } else {
-      const filtered = projectTasks.filter(t => t.projectId === projectId && !t.completed);
+      const filtered = projectTasks.filter(t => !t.completed);
       setFilteredTasks(filtered);
 
       return filtered;
@@ -42,9 +43,9 @@ const Tasks = () => {
 
   useEffect(() => {
     tasks?.data && filterTasks(tasks.data);
-  }, [tasks?.data, completed]);
+  }, [tasks, completed]);
 
-  if (isLoading || !tasks?.data) {
+  if (isLoading) {
     return <div>Loading...</div>
   }
 
@@ -70,7 +71,7 @@ const Tasks = () => {
       {filteredTasks.map(task => (
         <TaskCard task={task} key={task.id} />
       ))}
-      {variables.filter(v => v.projectId === projectId).map((variable, idx) => (
+      {variables.map((variable, idx) => (
         <TaskCard task={variable} key={idx} className='opacity-50' />
       ))}
     </div>

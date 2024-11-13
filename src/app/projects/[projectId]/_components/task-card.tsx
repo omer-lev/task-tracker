@@ -3,7 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useOptimistic, useTasks } from '@/hooks/projects';
 import { cn } from '@/lib/utils';
 import { Task } from '@prisma/client'
-import { ClipboardList, Pencil, RefreshCcw, Trash2 } from 'lucide-react';
+import { BadgeCheck, ClipboardList, Pencil, RefreshCcw, Trash2 } from 'lucide-react';
 import React, { useState } from 'react'
 import TaskDialog from './task-dialog';
 
@@ -17,8 +17,8 @@ const TaskCard = ({ task, className }: { task: Task, className?: string }) => {
     <>
       <div className={cn(`w-full h-[70px] flex items-center bg-white rounded-md px-5 py-3 shadow-md ${variables.length && 'opacity-50'}`, className)}>
         <div className='flex items-center gap-3 w-[60%]'>
-          <Checkbox 
-            className='w-6 h-6 border-2 hover:bg-primary-foreground' 
+          <Checkbox
+            className='w-6 h-6 border-2 hover:bg-primary-foreground'
             checked={variables[0]?.completed || task.completed}
             onCheckedChange={(checked) => updateMutation({ ...task, completed: checked as boolean })}
           />
@@ -31,9 +31,18 @@ const TaskCard = ({ task, className }: { task: Task, className?: string }) => {
         </div>
         <div className='flex justify-between items-center grow text-sm text-muted-foreground font-medium'>
           <div className='flex items-center gap-10'>
-            <p>
-              <RefreshCcw size={20} className='inline-block mr-2' />
-              In progress
+            <p className='flex items-center'>
+              {!task.completed ? (
+                <>
+                  <RefreshCcw size={20} className='inline-block mr-2' />
+                  In progress
+                </>
+              ) : (
+                <>
+                  <BadgeCheck size={20} className='inline-block mr-2' />
+                  Completed
+                </>
+              )}
             </p>
             <div>
               <div className={`inline-block rounded-full w-2.5 h-2.5 mr-2.5 
@@ -43,7 +52,7 @@ const TaskCard = ({ task, className }: { task: Task, className?: string }) => {
                   task.priority === 'LOW' ? 'green' : task.priority === 'MEDIUM' ? 'yellow' : 'red'
                 )}-500`}
               />
-                {variables[0]?.priority.toLowerCase() || task.priority.toLowerCase()}
+              {variables[0]?.priority.toLowerCase() || task.priority.toLowerCase()}
             </div>
           </div>
 

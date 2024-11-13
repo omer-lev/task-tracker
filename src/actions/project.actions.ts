@@ -124,7 +124,7 @@ export const getProjectById = async (projectId: string) => {
   }
 }
 
-export const deleteProject = async (projectId: string) => {
+export const deleteProject = async (projectId: string) => {  
   const { status, message } = await isProjectOwner(projectId);
 
   if (status !== 200) {    
@@ -134,8 +134,8 @@ export const deleteProject = async (projectId: string) => {
   try {
     const project = await prisma.project.delete({
       where: {
-        id: projectId,
-      },
+        id: projectId
+      }
     });
 
     if (project) return {

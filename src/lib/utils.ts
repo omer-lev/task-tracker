@@ -15,3 +15,7 @@ export const calculateProgress = (tasks: Task[]) => {
 
   return Math.round((completed / total) * 100);
 }
+
+export const isProjectCompleted = (tasks: Task[]) => {
+  return calculateProgress(tasks) === 100;
+}

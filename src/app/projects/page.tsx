@@ -6,6 +6,7 @@ import React from 'react'
 import ProjectDialog from './_components/project-dialog';
 import AnimatedCircularProgressBar from '@/components/ui/animated-circular-progress-bar';
 import Projects from './_components/projects';
+import StatsBar from './_components/stats-bar';
 
 type Props = {}
 
@@ -43,17 +44,7 @@ const ProjectsPage = async (props: Props) => {
         <Projects />
       </section>
 
-      <div className='h-full w-[300px] bg-white flex flex-col items-center pt-14'>
-        <h2 className='text-xl font-semibold text-center mb-10'>Projects Completed</h2>
-
-        <AnimatedCircularProgressBar
-          min={0}
-          max={100}
-          gaugePrimaryColor='#27C0B1'
-          gaugeSecondaryColor='#e6f7f6'
-          value={0}
-        />
-      </div>
+      <StatsBar />
     </div>
   )
 }
