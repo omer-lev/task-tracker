@@ -6,14 +6,19 @@ import ProjectDropdown from './_components/project-dropdown';
 import { QueryClient } from '@tanstack/react-query';
 import { getTasksByProjectId } from '@/actions/task.actions';
 
+type Props = {
+  params: {
+    projectId: string;
+  }
+}
 
-const ProjectPage = async ({ params }: { params: { projectId: string }}) => {
+const ProjectPage = async ({ params }: Props) => {
   const queryClient = new QueryClient();
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: ['tasks', params.projectId],
-  //   queryFn: () => getTasksByProjectId(params.projectId),
-  // });
+  await queryClient.prefetchQuery({
+    queryKey: ['tasks', params.projectId],
+    queryFn: () => getTasksByProjectId(params.projectId),
+  });
 
   return (
     <div className='px-14 space-y-10'>
