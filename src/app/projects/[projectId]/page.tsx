@@ -7,17 +7,15 @@ import { QueryClient } from '@tanstack/react-query';
 import { getTasksByProjectId } from '@/actions/task.actions';
 
 type Props = {
-  params: {
-    projectId: string;
-  }
+  params: Promise<{ projectId: string }>,
 }
 
 const ProjectPage = async ({ params }: Props) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['tasks', params.projectId],
-    queryFn: () => getTasksByProjectId(params.projectId),
+    queryKey: ['tasks', (await params).projectId],
+    queryFn: async () => getTasksByProjectId((await params).projectId),
   });
 
   return (
