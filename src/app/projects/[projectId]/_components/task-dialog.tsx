@@ -36,7 +36,7 @@ const TaskDialog = ({ isEdit = false, taskData, onOpenChange }: Props) => {
   const { createMutation, updateMutation } = useTasks(taskData?.id);
 
 
-  const { data: projects } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
+  const { data: projects } = useQuery({ queryKey: ['projects'], queryFn: () => getProjects() });
 
   const {
     register,

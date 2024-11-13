@@ -63,14 +63,15 @@ const ProjectCard = ({ id, title, icon, tasks, className }: Props) => {
           </DropdownMenu>
         </CardHeader>
         <CardContent
-          className={`grow flex ${!tasks?.length && 'items-center'} cursor-pointer`}
+          className={`grow flex ${!tasks?.length && 'items-center'} cursor-pointer overflow-y-hidden`}
           onClick={() => router.push(`/projects/${id}`)}
         >
-          {tasks?.length ? <ul className='list-disc list-inside space-y-2'>
-            {tasks?.map((task, idx) => (
-              <li key={idx} className={`list-item text-muted-foreground text-base ${task.completed && 'line-through'}`}>
-                {task.title}
-              </li>
+          {tasks?.length ? <ul className='list-disc list-inside space-y-2 w-full'>
+            {tasks?.filter(task => !task.completed).map((task, idx) => (
+              <li key={idx} className='list-item text-muted-foreground text-base truncate'>{task.title}</li>
+            ))}
+            {tasks?.filter(task => task.completed).map((task, idx) => (
+              <li key={idx} className='list-item text-muted-foreground text-base truncate line-through'>{task.title}</li>
             ))}
           </ul>
             : <p className='text-sm font-light text-center w-full'>No current tasks</p>

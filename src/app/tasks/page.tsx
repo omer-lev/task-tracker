@@ -9,7 +9,7 @@ type Props = {}
 const TasksRedirectPage = (props: Props) => {
   const { data } = useQuery({
     queryKey: ['projects'],
-    queryFn: getProjects,
+    queryFn: () => getProjects(),
   });
   
   if (data?.data?.length) {

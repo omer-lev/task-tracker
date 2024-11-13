@@ -20,7 +20,7 @@ const ProjectDropdown = () => {
 
   const { data: projects } = useQuery({
     queryKey: ['projects'],
-    queryFn: getProjects,
+    queryFn: () => getProjects(),
   });
 
   const { data: tasks } = useQuery({

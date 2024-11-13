@@ -8,7 +8,7 @@ const ProjectsLayout = async ({ children }: { children: React.ReactNode }) => {
 
   await queryClient.prefetchQuery({
     queryKey: ['projects'],
-    queryFn: getProjects,
+    queryFn: () => getProjects(),
   });
 
   await queryClient.prefetchQuery({

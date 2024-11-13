@@ -46,7 +46,7 @@ const Tasks = () => {
   }, [tasks, completed]);
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className='text-muted-foreground'>Loading...</div>
   }
 
   return (
@@ -68,11 +68,17 @@ const Tasks = () => {
         </Link>
       </div>
 
+      {filteredTasks.length === 0 && (
+        <div className='text-muted-foreground pt-5'>
+          No On Going Tasks
+        </div>
+      )}
+
       {filteredTasks.map(task => (
         <TaskCard task={task} key={task.id} />
       ))}
       {variables.map((variable, idx) => (
-        <TaskCard task={variable} key={idx} className='opacity-50' />
+        variable.projectId === projectId && <TaskCard task={variable} key={idx} className='opacity-50' />
       ))}
     </div>
   )

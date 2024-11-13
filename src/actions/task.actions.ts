@@ -3,6 +3,7 @@
 import prisma from "@/lib/db";
 import { authenticateUser, isProjectOwner } from "./auth.actions";
 import { Priority, Task } from "@prisma/client";
+import { SortOrder } from "@/types";
 
 export const getAllTasks = async () => {
   const { data: auth } = await authenticateUser();
@@ -44,7 +45,7 @@ export const getAllTasks = async () => {
   }
 }
 
-export const getTasksByProjectId = async (projectId: string) => {
+export const getTasksByProjectId = async (projectId: string, sortOrder: SortOrder = 'OLDEST') => {
   const { data: user } = await isProjectOwner(projectId);
 
   if (!user) {
@@ -59,6 +60,12 @@ export const getTasksByProjectId = async (projectId: string) => {
       where: {
         projectId,
       },
+      orderBy: {
+        ...(sortOrder === 'OLDEST' && { createdAt: 'asc' }),
+        ...(sortOrder === 'NEWEST' && { createdAt: 'desc' }),
+        ...(sortOrder === 'AZ' && { title: 'asc' }),
+        ...(sortOrder === 'ZA' && { title: 'desc' }),
+      }
     });
 
     return {

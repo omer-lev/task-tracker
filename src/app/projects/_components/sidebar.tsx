@@ -26,7 +26,7 @@ const Sidebar = ({ className }: Props) => {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
 
-  const { data: projects } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
+  const { data: projects } = useQuery({ queryKey: ['projects'], queryFn: () => getProjects() });
 
   return (
     <nav

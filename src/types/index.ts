@@ -1,0 +1,1 @@
+export type SortOrder = 'NEWEST' | 'OLDEST' | 'AZ' | 'ZA';

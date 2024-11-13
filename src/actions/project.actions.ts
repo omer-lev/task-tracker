@@ -2,6 +2,9 @@
 
 import prisma from "@/lib/db";
 import { authenticateUser, isProjectOwner } from "./auth.actions";
+import { SortOrder } from "@/types";
+
+
 
 // create a new project and save it to the database
 export const createProject = async (projectData: {
@@ -44,7 +47,7 @@ export const createProject = async (projectData: {
   }
 }
 
-export const getProjects = async () => {
+export const getProjects = async (sortOrder: SortOrder = 'NEWEST') => {
   const { data: user } = await authenticateUser();
 
   if (!user) {
@@ -65,6 +68,12 @@ export const getProjects = async () => {
         icon: true,
         tasks: true,
       },
+      orderBy: {
+        ...(sortOrder === 'OLDEST' && { createdAt: 'asc' }),
+        ...(sortOrder === 'NEWEST' && { createdAt: 'desc' }),
+        ...(sortOrder === 'AZ' && { title: 'asc' }),
+        ...(sortOrder === 'ZA' && { title: 'desc' }),
+      }
     });
 
     if (projects) return {

@@ -8,13 +8,13 @@ import { useOptimistic } from '@/hooks/projects';
 
 
 const Projects = () => {
-  const { data, isLoading } = useQuery({ queryKey: ['projects'], queryFn: getProjects });
+  const { data: projects, isLoading } = useQuery({ queryKey: ['projects'], queryFn: () => getProjects() });
   const variables = useOptimistic(['create-project']);
 
   return (
     <div className='flex gap-5 flex-wrap grow overflow-y-auto pb-6'>
       {isLoading && <p>Loading...</p>}
-      {data?.data?.map((project, idx) => (
+      {projects?.data?.map((project, idx) => (
         <ProjectCard
           key={idx}
           id={project.id}

@@ -72,6 +72,7 @@ body {
   * {
     @apply border-border;
     scrollbar-color: gray transparent;
+    scrollbar-width: thin;
   }
 
   body {
